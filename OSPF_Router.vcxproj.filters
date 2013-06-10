@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source files">
+      <UniqueIdentifier>{1508f6e4-b9ee-41be-b0f2-7c82511ae57f}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header files">
+      <UniqueIdentifier>{d3c06df1-c4a3-4779-95b9-6891fd855c02}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource files">
+      <UniqueIdentifier>{fa280a6a-943f-4155-8aaa-75d72c810cce}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="flags.mak" />
+    <None Include="Makefile" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="HelloTimer.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="LSAManager.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="LSDatabase.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="Neighbor.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="PacketManager.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="StateMachine.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="Timers.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="Common.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Common.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="Config.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="EventArgs.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="gcc_defines.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="HelloTimer.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="InterfaceEventState.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="LSAManager.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="LSDatabase.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="Neighbor.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="NeighborEventState.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketManager.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="Packets.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sender.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="Timers.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
