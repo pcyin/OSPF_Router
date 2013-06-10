@@ -4,7 +4,7 @@
 #Visit http://visualgdb.com/makefiles for more details
 
 #VisualGDB: AutoSourceFiles		#<--- remove this line to disable auto-updating of SOURCEFILES and EXTERNAL_LIBS
-SOURCEFILES := HelloTimer.cpp Interface.cpp LSAManager.cpp LSDatabase.cpp main.cpp Neighbor.cpp PacketManager.cpp StateMachine.cpp Timers.cpp
+SOURCEFILES := Common.cpp HelloTimer.cpp Interface.cpp LSAManager.cpp LSDatabase.cpp main.cpp Neighbor.cpp PacketManager.cpp StateMachine.cpp Timers.cpp
 
 TARGETNAME := OSPF_Router
 #TARGETTYPE can be APP, STATIC or SHARED

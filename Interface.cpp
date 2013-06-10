@@ -5,6 +5,7 @@
 #include "InterfaceEventState.h"
 #include "LSAManager.h"
 #include "Timers.h"
+#include "PacketRetransmitter.h"
 
 Interface::Interface():
     helloInterval(10),routerDeadInterval(40),dr(0),bdr(0),mask(0xffffff00),areaId(0),routerPriority(1),mtu(1500),cost(0)
@@ -13,6 +14,8 @@ Interface::Interface():
     actionPtrMap[IT_EVT_WAITTIMER] = (ActionPtr)(&Interface::onWaitTimer);
     actionPtrMap[IT_EVT_BACKUPSEEN] = (ActionPtr)(&Interface::onBackUpSeen);
     actionPtrMap[IT_EVT_NEIGHBORCHANGE] = (ActionPtr)(&Interface::onNbrChange);
+
+	retransmitter = new PacketRetransmitter(this);
 }
 
 Neighbor* Interface::getNbrByIp(in_addr_t ip)
@@ -194,6 +197,9 @@ void Interface::onInterfaceUp(Sender& sender,EventArgs& args)
 {
     if(currentState==IT_ST_DOWN)
     {
+		pthread_t transid;
+		pthread_create(&transid,NULL,PacketRetransmitter::run,this->retransmitter);
+
         cout << "IT_ST_DOWN -> IT_ST_WAITING" << endl;
         currentState = IT_ST_WAITING;
 		pthread_t tid;

@@ -49,6 +49,9 @@
     <ClCompile Include="Common.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
+    <ClCompile Include="PacketRetransmitter.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.h">
@@ -100,6 +103,9 @@
       <Filter>Header files</Filter>
     </ClInclude>
     <ClInclude Include="Timers.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketRetransmitter.h">
       <Filter>Header files</Filter>
     </ClInclude>
   </ItemGroup>

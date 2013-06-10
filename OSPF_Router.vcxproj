@@ -73,6 +73,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Neighbor.cpp" />
     <ClCompile Include="PacketManager.cpp" />
+    <ClCompile Include="PacketRetransmitter.cpp" />
     <ClCompile Include="StateMachine.cpp" />
     <ClCompile Include="Timers.cpp" />
   </ItemGroup>
@@ -89,6 +90,7 @@
     <ClInclude Include="Neighbor.h" />
     <ClInclude Include="NeighborEventState.h" />
     <ClInclude Include="PacketManager.h" />
+    <ClInclude Include="PacketRetransmitter.h" />
     <ClInclude Include="Packets.h" />
     <ClInclude Include="Sender.h" />
     <ClInclude Include="StateMachine.h" />

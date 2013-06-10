@@ -8,6 +8,8 @@
 #include "NeighborEventState.h"
 #include "InterfaceEventState.h"
 #include "LSDatabase.h"
+#include "PacketRetransmitter.h"
+#define RxmtInterval 5
 
 PacketManager::PacketManager()
 {
@@ -355,7 +357,37 @@ void* PacketManager::recvHelloPacket(void *inter)
                     }
 
                 }else{
+					interface->retransmitter->unregisterPacket(nbr->unAckDDList[nbr->ddNum]);
                     nbr->ddNum++;
+
+					if(nbr->summaryList.size() == 0 && dd->mbit == 0 ){
+						EventArgs arg;
+						arg.eventId = NBR_EVT_EXCHANGEDONE;
+						nbr->invokeEvent(PACKET_RECV,arg);
+						continue;
+					}
+
+					char *data = new char[1024];
+
+					ospf_dd ddAck;
+					bzero(&ddAck,DD_HEADER_LEN);
+					dd->mbit = nbr->summaryList.size() > 1 ? 1 : 0;
+					ddAck.seq_num = htonl(nbr->ddNum);
+					ddAck.interMTU = htons(nbr->interface->mtu);
+					ddAck.opt = 0x02;
+					ddAck.msbit = 1;
+
+					memcpy(data,&ddAck,DD_HEADER_LEN);
+					ospf_lsa_header lsa = *nbr->summaryList.begin();
+					int packetLen = DD_HEADER_LEN;
+					if(nbr->summaryList.size() > 0){
+						nbr->summaryList.pop_front();
+						memcpy(data+packetLen,lsa.toNetworkOrder(),LSA_HEADER_LEN);
+						packetLen+=LSA_HEADER_LEN;
+					}
+					
+					int pid = interface->retransmitter->registerPacket(data,packetLen,2,nbr->ip,RxmtInterval);
+					nbr->unAckDDList[nbr->ddNum] = pid;
                 }
             }
 		}else if(hdr->type == 3){

@@ -8,7 +8,7 @@
 #include "StateMachine.h"
 #include <list>
 #include "Packets.h"
-
+#include <map>
 class PacketManager;
 class Interface;
 class Neighbor : public StateMachine
@@ -26,6 +26,7 @@ class Neighbor : public StateMachine
         pthread_t ddSendThread;
         list<ospf_lsa_header> reqList;
 		list<ospf_lsa_header> summaryList;
+		map<int,int> unAckDDList;
 		int last_seq_num;
 		int lastDD_len;
 		char lastDD[MAX_PACKET_LEN];

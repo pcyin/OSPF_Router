@@ -9,9 +9,9 @@
 #include <arpa/inet.h>
 #include "StateMachine.h"
 
-
 using namespace std;
 class Neighbor;
+class PacketRetransmitter;
 class Interface: public StateMachine
 {
     public:
@@ -27,6 +27,7 @@ class Interface: public StateMachine
         list<Neighbor*> nbrList;
         Neighbor* getNbrByIp(in_addr_t);
         Neighbor* createNbr(in_addr_t);
+		PacketRetransmitter* retransmitter;
         void calcDR();
         int mtu;
         int cost;
