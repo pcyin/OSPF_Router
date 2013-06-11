@@ -19,6 +19,8 @@ class LSDatabase
 		static RouterLSA *getRouterLSAByAdrId(uint32_t adr_id);
 		static NetworkLSA *getNetworkLSAByAdrId(uint32_t adr_id);
 		static void removeByAdrId( uint32_t ad_router, int type );
+		static RouterLSA *getRouterLSAByLinkStateId(uint32_t linkId);
+		static NetworkLSA * getNetworkLSAByLinkStateId( uint32_t linkId );
 		static pthread_mutex_t rlock;
 		static pthread_mutex_t nlock;
 		static pthread_mutex_t slock;

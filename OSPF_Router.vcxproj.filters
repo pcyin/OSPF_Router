@@ -52,6 +52,9 @@
     <ClCompile Include="PacketRetransmitter.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
+    <ClCompile Include="RoutingTable.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.h">
@@ -106,6 +109,9 @@
       <Filter>Header files</Filter>
     </ClInclude>
     <ClInclude Include="PacketRetransmitter.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="RoutingTable.h">
       <Filter>Header files</Filter>
     </ClInclude>
   </ItemGroup>

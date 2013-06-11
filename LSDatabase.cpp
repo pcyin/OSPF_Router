@@ -31,6 +31,24 @@ NetworkLSA *LSDatabase::getNetworkLSAByAdrId(uint32_t adr_id){
 	return NULL;
 }
 
+RouterLSA * LSDatabase::getRouterLSAByLinkStateId( uint32_t linkId )
+{
+	for(vector<RouterLSA>::iterator it = routerLSAList.begin();it!=routerLSAList.end();it++){
+		if(it->header.state_id == linkId)
+			return &*it;
+	}
+	return NULL;
+
+}
+
+NetworkLSA * LSDatabase::getNetworkLSAByLinkStateId( uint32_t linkId )
+{
+	for(vector<NetworkLSA>::iterator it = networkLSAList.begin();it!=networkLSAList.end();it++){
+		if(it->header.state_id == linkId)
+			return &*it;
+	}
+	return NULL;
+}
 
 NetworkLSA * LSDatabase::getNetworkLSAById( uint32_t linkId,uint32_t adr_id )
 {

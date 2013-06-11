@@ -89,6 +89,10 @@ struct ospf_lsa_header{
 
 };
 
+struct LSA{
+
+};
+
 struct RouterLSALink{
     RouterLSALink():tosNum(0){}
 
@@ -107,7 +111,8 @@ struct RouterLSALink{
     }
 };
 
-struct RouterLSA{
+struct RouterLSA:public LSA
+{
     RouterLSA(ospf_lsa_header hdr):
         zeros(0),linkNum(0),header(hdr){}
 	RouterLSA():zeros(0),linkNum(0){}
@@ -168,7 +173,8 @@ struct RouterLSA{
     }
 };
 
-struct NetworkLSA{
+struct NetworkLSA:public LSA
+{
     NetworkLSA():
         netMask(0xffffff00){}
 	NetworkLSA(ospf_lsa_header hdr):
