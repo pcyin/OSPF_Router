@@ -423,35 +423,36 @@ void* PacketManager::recvHelloPacket(void *inter)
 			cout<<"LS Update recved"<<endl;
 			ospf_lsupdate *lsupdate = (ospf_lsupdate*)(msgbuf+IP_LEN+HEADER_LEN);
 			int num = ntohl(lsupdate->num);
-			ospf_lsa_header* hdr = (ospf_lsa_header*)((uint32_t*)lsupdate+1);
-			ospf_lsa_header* hdr_host = hdr->toHostOrder();
+			uint8_t* ptr = (uint8_t*)msgbuf+IP_LEN+HEADER_LEN+4;
 			for(int i=0;i<num;i++){
+				ospf_lsa_header* hdr = (ospf_lsa_header*)ptr;
+				//ospf_lsa_header* hdr_host = hdr->toHostOrder();
 				switch (hdr->type)
 				{
 				case 1:{
-					RouterLSA *lsa = LSDatabase::getRouterLSAById(hdr_host->state_id,hdr_host->ad_router);
+					RouterLSA curLsa = RouterLSA(ptr);
+					RouterLSA *lsa = LSDatabase::getRouterLSAById(curLsa.header.state_id,curLsa.header.ad_router);
 					if(lsa == NULL){
-						RouterLSA rlsa(*hdr_host);
-						LSDatabase::insertRouterLSA(rlsa);
+						LSDatabase::insertRouterLSA(curLsa);
 					}
-					else if(*hdr_host > lsa->header){
+					else if(curLsa.header > lsa->header){
 						LSDatabase::remove(lsa->header.state_id,lsa->header.ad_router,1);
-						RouterLSA rlsa(*hdr_host);
-						LSDatabase::insertRouterLSA(rlsa);
+						LSDatabase::insertRouterLSA(curLsa);
 					}
+					ptr+=curLsa.size();
 				}	
 					break;
 				case 2:{
-					NetworkLSA *lsa = LSDatabase::getNetworkLSAById(hdr_host->state_id,hdr_host->ad_router);
+					NetworkLSA curLsa = NetworkLSA(ptr);
+					NetworkLSA *lsa = LSDatabase::getNetworkLSAById(curLsa.header.state_id,curLsa.header.ad_router);
 					if(lsa == NULL){
-						NetworkLSA nlsa(*hdr_host);
-						LSDatabase::insertNetworkLSA(nlsa);
+						LSDatabase::insertNetworkLSA(curLsa);
 					}
-					else if(*hdr_host > lsa->header){
-						LSDatabase::remove(hdr_host->state_id,lsa->header.ad_router,2);
-						NetworkLSA nlsa(*hdr_host);
-						LSDatabase::insertNetworkLSA(nlsa);
+					else if(curLsa.header > lsa->header){
+						LSDatabase::remove(curLsa.header.state_id,curLsa.header.ad_router,2);
+						LSDatabase::insertNetworkLSA(curLsa);
 					}
+					ptr+=curLsa.size();
 				}	
 					break;
 				default:
@@ -524,7 +525,7 @@ void* PacketManager::sendHello(void* inter)
         for(list<Neighbor*>::iterator it = interface->nbrList.begin(); it!=interface->nbrList.end(); it++)
         {
             actNbrNum++;
-            *ptr = htonl((*it)->ip);
+            *ptr = htonl((*it)->id);
             ptr++;
         }
         cout<<"actNum:"<<actNbrNum<<endl;

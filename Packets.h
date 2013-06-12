@@ -12,7 +12,7 @@
 #define LSA_HEADER_LEN sizeof(ospf_lsa_header)
 #define LSREQ_LEN sizeof(ospf_lsreq)
 #define MAX_PACKET_LEN 1024
-
+#define LSA_ROUTER_LINK_LEN sizeof(RouterLSALink)
 using namespace std;
 
 struct ospf_hdr{
@@ -95,6 +95,16 @@ struct LSA{
 
 struct RouterLSALink{
     RouterLSALink():tosNum(0){}
+	RouterLSALink(uint8_t* data):tosNum(0){
+		uint8_t* ptr = data;
+		linkId = ntohl(*(uint32_t*)ptr);
+		ptr+=4;
+		linkData = ntohl(*(uint32_t*)ptr);
+		ptr+=4;
+		type = *ptr;
+		ptr+=2;
+		metric = htons(*(uint16_t*)ptr);
+	}
 
     uint32_t linkId;
     uint32_t linkData;
@@ -116,6 +126,18 @@ struct RouterLSA:public LSA
     RouterLSA(ospf_lsa_header hdr):
         zeros(0),linkNum(0),header(hdr){}
 	RouterLSA():zeros(0),linkNum(0){}
+	/* get router lsa by network-ordered data */
+	RouterLSA(uint8_t* data):zeros(0),linkNum(0){
+		ospf_lsa_header *hdr = (ospf_lsa_header*)data;
+		header = *hdr->toHostOrder();
+		linkNum = ntohs(*(uint16_t*)(data + LSA_HEADER_LEN + 2));
+		uint8_t* ptr = data+LSA_HEADER_LEN+4;
+		for(int i=0;i<linkNum;i++){
+			RouterLSALink link(ptr);
+			ptr+=LSA_ROUTER_LINK_LEN;
+			links.push_back(link);
+		}
+	}
 
     uint8_t *toRouterLSA(){
         uint32_t *data = new uint32_t[this->size()/4];
@@ -179,6 +201,19 @@ struct NetworkLSA:public LSA
         netMask(0xffffff00){}
 	NetworkLSA(ospf_lsa_header hdr):
 		netMask(0xffffff00),header(hdr){}
+	NetworkLSA(uint8_t* data):
+		netMask(0xffffff00)
+	{
+		ospf_lsa_header *hdr = (ospf_lsa_header*)data;
+		header = *hdr->toHostOrder();
+		netMask = ntohl(*(uint32_t*)(data + LSA_HEADER_LEN));
+		uint32_t* ptr = (uint32_t*)(data + LSA_HEADER_LEN + 4);
+		int n = (header.len - LSA_HEADER_LEN - 4)/4;
+		for(int i=0;i<n;i++){
+			routers.push_back(ntohl(*ptr));
+			ptr++;
+		}
+	}
 
     ospf_lsa_header header;
     uint32_t netMask;
